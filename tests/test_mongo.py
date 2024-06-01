@@ -35,5 +35,11 @@ async def test_agg():
     return print(await Vector.aggregate(size_aggregate).to_list())
 
 
+@pytest.mark.asyncio
+async def test_answers():
+    await init_mongo()
+    return print(await get_answers('What is the meaning of the life?'))
+
+
 if __name__ == '__main__':
     pytest.main()

@@ -69,7 +69,16 @@ def generate_embeddings(input_texts: List[str]) -> List[List[float]]:
     return [x.embedding + x.embedding for x in outputs.data]
 
 
+async def get_answers(question):
+    results = await search_content(question)
+    contents = [result["content"] for result in results]
+    # todo filter "!" to remove practice entries
+    block = '\n\n'.join(contents)
+    return f"""Here is relevant knowledge. use it to best answer the question:\n\n{block}"""
+
+
 async def search_content(content):
+    await init_mongo()
     embeddings = generate_embeddings([content])[0]
     query = VectorSearchQuery(queryVector=embeddings)
     agg = [
