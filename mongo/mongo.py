@@ -16,6 +16,7 @@ mongodb_client = MongoClient(MONGODB_URI)
 
 
 async def mongo_insert(content):
+    print("content...........\n\n", content)
     embeddings = generate_embeddings([content])[0]
     vector = Vector(content=content, content_embeddings=embeddings)
     await vector.insert()
